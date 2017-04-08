@@ -171,6 +171,7 @@ if is_windows()
    end
 else
    cd(joinpath("$wdir", "flint2"))
+   run(`sed -i -e 's/(ABI_FLAG) -Wl,-r/(ABI_FLAG) -no-pie -Wl,-r/' Makefile.subdirs`)
    withenv("LD_LIBRARY_PATH"=>"$vdir/lib", "LDFLAGS"=>LDFLAGS) do
       run(`./configure --prefix=$vdir --extensions="$wdir/antic" --disable-static --enable-shared --with-mpir=$vdir --with-mpfr=$vdir`) 
       run(`make -j4`)
@@ -204,6 +205,7 @@ if is_windows()
    end
 else
    cd(joinpath("$wdir", "arb"))
+   run(`sed -i -e 's/(ABI_FLAG) -Wl,-r/(ABI_FLAG) -no-pie -Wl,-r/' Makefile.subdirs`)
    withenv("LD_LIBRARY_PATH"=>"$vdir/lib", "LDFLAGS"=>LDFLAGS) do
       run(`./configure --prefix=$vdir --disable-static --enable-shared --with-mpir=$vdir --with-mpfr=$vdir --with-flint=$vdir`)
       run(`make -j4`)
